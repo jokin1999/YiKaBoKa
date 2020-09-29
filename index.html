@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>一咔波咔</title>
+    <style media="screen">
+      .text {
+        width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>一咔波咔</h1>
+      <section>
+        <textarea name="text" rows="8" cols="80" class="text" id="text">在这里输入就能一咔波咔~</textarea>
+
+        <div class="clearfix">
+          <button class="btn btn-primary float-right" type="button" name="convert" onclick="javascript:document.getElementById('text').value = convert2yikaboka(document.getElementById('text').value);">转换</button>
+
+          <button class="btn btn-danger float-right mr-4" type="button" name="convert" onclick="javascript:document.getElementById('text').value = yikaboka2convert(document.getElementById('text').value);">恢复</button>
+        </div>
+      </section>
+    </div>
+    <script type="text/javascript">
+      /**
+       * 一咔波咔转换
+       * @param  t      text  需要转换的文本
+       * @param  z      zero  代表0的文本
+       * @param  o      one   代表1的文本
+       * @return string
+       */
+      function convert2yikaboka(t, z = "一咔", o = "波咔") {
+        let text = t.split("");
+        let str = '';
+        for (let i = 0; i < text.length; i++) {
+          let s = text[i].charCodeAt().toString(2);
+          str += s + '，';
+        }
+        str = str.replace(/0/g, z);
+        str = str.replace(/1/g, o);
+        str = str.substr(0, str.length - 1) + '。';
+        console.log(str);
+        return str;
+      }
+      /**
+       * 一咔波咔反向转换
+       * @param  t      text  需要转换的文本
+       * @param  z      zero  代表0的文本
+       * @param  o      one   代表1的文本
+       * @return string
+       */
+      function yikaboka2convert(t, z = "一咔", o = "波咔") {
+        // 去除句号
+        t = t.substr(0, t.length - 1);
+        z = new RegExp(z, 'g');
+        o = new RegExp(o, 'g');
+        t = t.replace(z, '0');
+        t = t.replace(o, '1');
+        let text = t.split("，");
+        console.log(text)
+        let str = '';
+        for (let i = 0; i < text.length; i++) {
+          num = parseInt(text[i], 2);
+          console.log(num);
+          let s = String.fromCharCode(num);
+          str += s;
+        }
+        console.log(str);
+        return str;
+      }
+    </script>
+  </body>
+</html>
